@@ -27,17 +27,13 @@ defmodule Report do
 
   def full_report(files_list \\ @files) do
     values = build_from_many(files_list)
-    all = all_hours(values)
     map = group_data(values)
-    # header_keys
     keys = get_keys(map)
-    by_month = reports_by(map, 3)
-    by_year = reports_by(map, 4)
 
     %{
-      all_hours: all,
-      hours_per_month: header_keys(keys, by_month),
-      hours_per_year: header_keys(keys, by_year)
+      all_hours: all_hours(values),
+      hours_per_month: keys |> header_keys(reports_by(map, 3)),
+      hours_per_year: keys |> header_keys(reports_by(map, 4))
     }
   end
 
