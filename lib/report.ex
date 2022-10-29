@@ -74,10 +74,10 @@ defmodule Report do
     map
     |> get_keys()
     |> Enum.map(fn key ->
-      person = map["#{key}"]
-      build = build_map(person, key_position)
+      build = build_map(map["#{key}"], key_position)
 
-      Enum.reduce(person, build, fn e, acc ->
+      map["#{key}"]
+      |> Enum.reduce(build, fn e, acc ->
         Map.put(acc, Enum.at(e, key_position), Enum.at(e, 1) + acc["#{Enum.at(e, key_position)}"])
       end)
     end)
