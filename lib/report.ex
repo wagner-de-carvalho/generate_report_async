@@ -39,24 +39,23 @@ defmodule Report do
 
     %{
       all_hours: all,
-      hours_per_month: add_header_keys(keys, by_month),
-      hours_per_year: add_header_keys(keys, by_year)
+      hours_per_month: header_keys(keys, by_month),
+      hours_per_year: header_keys(keys, by_year)
     }
   end
 
   def all_hours(values) do
-    map =
-      values
-      |> build_map()
-
-    Enum.reduce(values, map, fn [name, hours | _rest], acc ->
+    values
+    |> Enum.reduce(build_map(values), fn [name, hours | _rest], acc ->
       Map.put(acc, name, acc["#{name}"] + hours)
     end)
   end
 
   def build_map(values, position \\ 0) do
     values
-    |> Enum.reduce(%{}, fn element, acc -> Map.put(acc, Enum.at(element, position), 0) end)
+    |> Enum.reduce(%{}, fn element, acc ->
+      Map.put(acc, Enum.at(element, position), 0)
+    end)
   end
 
   def group_data(values) do
@@ -75,9 +74,9 @@ defmodule Report do
   defp get_keys(map), do: Map.keys(map)
 
   def reports_by(map, key_position) do
-    keys = get_keys(map)
-
-    Enum.map(keys, fn key ->
+    map
+    |> get_keys()
+    |> Enum.map(fn key ->
       person = map["#{key}"]
       build = build_map(person, key_position)
 
@@ -87,8 +86,9 @@ defmodule Report do
     end)
   end
 
-  defp add_header_keys(keys, list) do
-    Enum.zip(keys, list)
+  defp header_keys(keys, list) do
+    keys
+    |> Enum.zip(list)
     |> Enum.into(%{})
   end
 end
