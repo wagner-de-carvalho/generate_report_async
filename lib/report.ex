@@ -1,6 +1,5 @@
 defmodule Report do
   alias Report.Parser
-  @keys ["name", "hours", "day", "month", "year"]
   @files ["part_1.csv", "part_2.csv", "part_3.csv"]
 
   def build(filename) do
@@ -63,7 +62,7 @@ defmodule Report do
   def group_data(values) do
     values
     |> Stream.map(fn e -> month_to_name(e, Enum.at(e, 3)) end)
-    |> Enum.group_by(&Enum.at(&1, 0))
+    |> Enum.group_by(&List.first(&1, ""))
   end
 
   defp month_to_name(list, month) do
