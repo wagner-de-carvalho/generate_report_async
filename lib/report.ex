@@ -14,10 +14,7 @@ defmodule Report do
     |> Enum.reduce([], fn file, acc -> acc ++ file end)
   end
 
-  def sum_values(acc, file) do
-    new_part = read_async(file)
-    List.insert_at(acc, 0, new_part)
-  end
+  def sum_values(acc, file), do: List.insert_at(acc, 0, read_async(file))
 
   def read_async(file_name) do
     [result] =
