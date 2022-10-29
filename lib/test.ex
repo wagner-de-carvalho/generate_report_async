@@ -10,7 +10,5 @@ defmodule Test do
     # |> Report.build_from_many()
 
     Report.full_report()
-    
-    
   end
 end
