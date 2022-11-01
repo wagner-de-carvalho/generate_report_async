@@ -1,6 +1,7 @@
 defmodule Report do
-  alias Report.Parser
-  @files ["part_1.csv", "part_2.csv", "part_3.csv"]
+  alias Report.{Parser, Utils}
+
+  @files_path "lib/assets/*.csv"
   @report_keys [:all_hours, :hours_per_month, :hours_per_year]
 
   def build(filename) do
@@ -26,8 +27,11 @@ defmodule Report do
     result
   end
 
-  def full_report(files_list \\ @files) do
-    values = build_from_many(files_list)
+  def full_report(files_path \\ @files_path) do
+    values = files_path
+    |> Utils.read_directory()
+    |> build_from_many()
+
     map = group_data(values)
     keys = get_keys(map)
 
