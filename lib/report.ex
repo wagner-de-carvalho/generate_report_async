@@ -88,7 +88,7 @@ defmodule Report do
 
   defp wrap_values(keys, list) do
     keys
-    |> Enum.zip(list)
+    |> Stream.zip(list)
     |> Enum.into(%{})
   end
 end
